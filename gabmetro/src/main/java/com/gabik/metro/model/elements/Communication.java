@@ -1,44 +1,73 @@
 package com.gabik.metro.model.elements;
 
+import com.gabik.metro.model.param.DrawParamBendCommunication;
 import com.gabik.metro.model.param.DrawParamCommunication;
 import com.gabik.metro.model.param.DrawParamRingCommunication;
-import com.gabik.metro.model.param.Paramable;
+import com.gabik.metro.model.param.ParamsDerivable;
 import com.gabik.metro.view.drawElements.Drawable;
 
 /**
  * Created by GaBiK on 24.02.2016.
  */
-public class Communication implements Paramable {
+public class Communication implements ParamsDerivable {
 
-    private Station stationOne, stationTwo;
     private Branch branch;
     private DrawParamCommunication drawParamCommunication;
     public int time;
 
-    public Communication(Station stationOne, Station stationTwo, int time) {
+    public Communication(Station stationOne, Station stationTwo, int time, String bendPointX, String bendPointY) {
         if (stationOne == null && stationTwo == null) throw new IllegalArgumentException("Один из входных параметров " +
                 "функции равен null");
-        variableInitialization(stationOne, stationTwo, time);
+        if (time <= 0) throw new IllegalArgumentException("Время между станциями не может быть: " + time);
+        variableInitialization(stationOne, stationTwo, time, bendPointX, bendPointY);
     }
 
-    private void variableInitialization(Station stationOne, Station stationTwo, int time){
+    private void variableInitialization(Station stationOne, Station stationTwo, int time, String bendPointX,
+                                        String bendPointY){
         this.time = time;
-        this.stationOne = stationOne;
-        this.stationTwo = stationTwo;
+        this.branch = stationOne.getBranchStation();
+        initDrawParam(stationOne, stationTwo, bendPointX, bendPointY);
+    }
+
+    private void initDrawParam(Station stationOne, Station stationTwo, String bendPointX, String bendPointY) {
         Branch branchOne = stationOne.getBranchStation();
         Branch branchTwo = stationTwo.getBranchStation();
-        this.branch = branchOne;
-        if (branchOne.getType() == TypeBranch.RING && branchTwo.getType() == TypeBranch.RING){
-            drawParamCommunication = new DrawParamRingCommunication(stationOne.getPoint(),
-                    stationTwo.getPoint(), branch.getPointCenter(), branch.getRadius(), branch.getColor());
-        } else {
-            drawParamCommunication = new DrawParamCommunication(stationOne.getPoint(),
-                   stationTwo.getPoint(), branch.getColor());
+        if (branchOne == null || branchTwo == null) throw new NullPointerException("Ветки не должны содержать" +
+                "null");
+        TypeCommunication typeCommunication = getTypeCommunication(branchOne, branchTwo, bendPointX, bendPointY);
+        switch (typeCommunication){
+            case RING:
+                drawParamCommunication = new DrawParamRingCommunication(stationOne.getPoint(),
+                        stationTwo.getPoint(), branch.getPointCenter(), branch.getRadius(), branch.getColor());
+                break;
+            case BEND:
+                drawParamCommunication = new DrawParamBendCommunication(stationOne.getPoint(),
+                        stationTwo.getPoint(), branch.getColor(), bendPointX, bendPointY);
+                break;
+            case LINE:
+                drawParamCommunication = new DrawParamCommunication(stationOne.getPoint(),
+                        stationTwo.getPoint(), branch.getColor());
+                break;
         }
+    }
+
+    private TypeCommunication getTypeCommunication(Branch branchOne, Branch branchTwo, String bendPointX, String bendPointY) {
+        if (branchOne.getType() == TypeBranch.RING && branchTwo.getType() == TypeBranch.RING){
+            return TypeCommunication.RING;
+        }
+        if (bendPointX != null && bendPointY != null){
+            return TypeCommunication.BEND;
+        }
+        return TypeCommunication.LINE;
     }
 
     @Override
     public Drawable getParam() {
         return drawParamCommunication;
+    }
+    private enum TypeCommunication {
+        LINE,
+        RING,
+        BEND
     }
 }

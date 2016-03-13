@@ -5,6 +5,6 @@ import android.database.Cursor;
 /**
  * Created by GaBiK on 23.02.2016.
  */
-public interface Paramable {
+public interface ReadableFromDB {
     void readElement(Cursor c);
 }

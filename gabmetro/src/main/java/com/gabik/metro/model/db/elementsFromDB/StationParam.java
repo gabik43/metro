@@ -5,7 +5,7 @@ import android.database.Cursor;
 /**
  * Created by GaBiK on 23.02.2016.
  */
-public class StationParam implements Paramable {
+public class StationParam implements ReadableFromDB {
     public ElementInt id = new ElementInt("id");
     public ElementString name = new ElementString("name");
     public ElementInt x = new ElementInt("positionX");

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.gabik.metro.controller.Controller;
 import com.gabik.metro.model.db.DataBaseHelper;
 import com.gabik.metro.view.MySurfaceView;
-import com.metro.gabmetro.R;
+import com.gabik.metro.R;
 
 
 import java.io.IOException;

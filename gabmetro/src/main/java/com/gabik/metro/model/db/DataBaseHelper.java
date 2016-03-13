@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.gabik.metro.model.db.elementsFromDB.BranchParam;
 import com.gabik.metro.model.db.elementsFromDB.CommunicationParam;
-import com.gabik.metro.model.db.elementsFromDB.Paramable;
+import com.gabik.metro.model.db.elementsFromDB.ReadableFromDB;
 import com.gabik.metro.model.db.elementsFromDB.StationParam;
 
 import java.io.*;
@@ -71,32 +71,32 @@ public class DataBaseHelper extends SQLiteOpenHelper implements DataBaseEmpl {
     }
 
     @Override
-    public List<Paramable> getParam(Select selectQuery) {
+    public List<ReadableFromDB> getParam(Select selectQuery) {
         Cursor c = database.rawQuery(selectQuery.toString(),null);
-        List<Paramable> paramables = new ArrayList<Paramable>();
+        List<ReadableFromDB> readableFromDBs = new ArrayList<ReadableFromDB>();
 
         if (selectQuery.equals(Select.Station)){
             while (c.moveToNext()){
                 StationParam stationParam = new StationParam();
                 stationParam.readElement(c);
-                paramables.add(stationParam);
+                readableFromDBs.add(stationParam);
             }
         }
         if (selectQuery.equals(Select.Communication)){
             while (c.moveToNext()){
                 CommunicationParam stationParam = new CommunicationParam();
                 stationParam.readElement(c);
-                paramables.add(stationParam);
+                readableFromDBs.add(stationParam);
             }
         }
         if (selectQuery.equals(Select.Branch)){
             while (c.moveToNext()){
                 BranchParam branchParam = new BranchParam();
                 branchParam.readElement(c);
-                paramables.add(branchParam);
+                readableFromDBs.add(branchParam);
             }
         }
-        return paramables;
+        return readableFromDBs;
     }
 
 }

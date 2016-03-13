@@ -4,7 +4,7 @@ import com.gabik.metro.controller.touch.Selectable;
 import com.gabik.metro.controller.touch.SelectedRectangle;
 import com.gabik.metro.model.param.DrawParamNameStation;
 import com.gabik.metro.model.param.DrawParamNameStationTwoLine;
-import com.gabik.metro.model.param.Paramable;
+import com.gabik.metro.model.param.ParamsDerivable;
 import com.gabik.metro.view.drawElements.Drawable;
 
 import java.util.logging.Logger;
@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 /**
  * Created by GaBiK on 06.03.2016.
  */
-public class NameStation implements Paramable, Selectable {
+public class NameStation implements ParamsDerivable, Selectable {
     private static final Logger log = Logger.getLogger(NameStation.class.getName());
     private DrawParamNameStation drawParamNameStation;
     public String getName() {

@@ -4,13 +4,13 @@ import android.graphics.Point;
 import com.gabik.metro.controller.touch.SelectedRectangle;
 import com.gabik.metro.controller.touch.Selectable;
 import com.gabik.metro.model.param.DrawParamStation;
-import com.gabik.metro.model.param.Paramable;
+import com.gabik.metro.model.param.ParamsDerivable;
 import com.gabik.metro.view.drawElements.Drawable;
 
 /**
  * Created by GaBiK on 04.11.2015.
  */
-public class Station implements Selectable, Paramable {
+public class Station implements Selectable, ParamsDerivable {
 
     private NameStation nameStation;
     private DrawParamStation drawParamStation;

@@ -5,7 +5,7 @@ import android.database.Cursor;
 /**
  * Created by GaBiK on 26.02.2016.
  */
-public class BranchParam implements Paramable {
+public class BranchParam implements ReadableFromDB {
     public ElementInt id = new ElementInt("id");
     public ElementString name = new ElementString("name");
     public ElementString color = new ElementString("color");

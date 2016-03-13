@@ -5,7 +5,7 @@ import com.gabik.metro.model.elements.Communication;
 import com.gabik.metro.model.elements.Branch;
 import com.gabik.metro.model.elements.NameStation;
 import com.gabik.metro.model.elements.Station;
-import com.gabik.metro.model.param.Paramable;
+import com.gabik.metro.model.param.ParamsDerivable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,19 +26,19 @@ public class Map {
         return selectableList;
     }
 
-    private List<Paramable> drawStation;
+    private List<ParamsDerivable> drawStation;
 
-    public List<Paramable> getDrawCommunication() {
+    public List<ParamsDerivable> getDrawCommunication() {
         return drawCommunication;
     }
 
-    private List<Paramable> drawCommunication;
-    public List<Paramable> getDrawableStation() {
+    private List<ParamsDerivable> drawCommunication;
+    public List<ParamsDerivable> getDrawableStation() {
         return drawStation;
     }
 
-    private List<Paramable> drawNames;
-    public List<Paramable> getDrawableNames() {
+    private List<ParamsDerivable> drawNames;
+    public List<ParamsDerivable> getDrawableNames() {
         return drawNames;
     }
 
@@ -48,9 +48,9 @@ public class Map {
         mapNames = new HashMap<String, NameStation>();
         mapCommunication = new HashMap<IdCommunication, Communication>();
         selectableList = new ArrayList<Selectable>();
-        drawStation = new ArrayList<Paramable>();
-        drawCommunication = new ArrayList<Paramable>();
-        drawNames= new ArrayList<Paramable>();
+        drawStation = new ArrayList<ParamsDerivable>();
+        drawCommunication = new ArrayList<ParamsDerivable>();
+        drawNames= new ArrayList<ParamsDerivable>();
     }
 
 
