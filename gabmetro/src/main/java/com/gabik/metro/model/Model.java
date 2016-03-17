@@ -2,6 +2,7 @@ package com.gabik.metro.model;
 
 import android.content.Context;
 import com.gabik.metro.controller.touch.Selectable;
+import com.gabik.metro.grahp.Graph;
 import com.gabik.metro.model.db.*;
 import com.gabik.metro.model.db.elementsFromDB.BranchParam;
 import com.gabik.metro.model.db.elementsFromDB.CommunicationParam;
@@ -24,8 +25,11 @@ public class Model extends Observable {
     private static final Logger log = Logger.getLogger(Model.class.getName());
 
     private Map map;
+    private Graph graph;
     private Context context;
     private DataBaseHelper dataBaseHelper;
+
+    private Station selectStationOne, selectStationTwo;
 
     public List<Selectable> getSelectableList(){
         return map.getSelectableList();
@@ -45,6 +49,7 @@ public class Model extends Observable {
         initialBranches();
         initialStations();
         initialCommunications();
+        graph = new Graph(map.getDistance(), 500);
     }
 
     private void initialFieldAndSetContext(Context context) {
@@ -80,7 +85,7 @@ public class Model extends Observable {
                 Branch branch = map.getLine(stationParam.idLines.value);
                 map.addName(new NameStation(stationParam.name.value, stationParam.x.value, stationParam.y.value,
                         stationParam.offsetXName.value, stationParam.offsetYName.value));
-                map.addStation(stationParam.id.value, new Station(branch, map.getName(stationParam.name.value),
+                map.addStation(stationParam.id.value, new Station(stationParam.id.value, branch, map.getName(stationParam.name.value),
                         stationParam.x.value, stationParam.y.value));
                 log.fine("Станции метро успешно инициализированны");
             }
@@ -98,18 +103,53 @@ public class Model extends Observable {
                 CommunicationParam lineParam = (CommunicationParam)param;
                 Station StationOne = map.getStation(lineParam.idFirst.value);
                 Station StationTwo = map.getStation(lineParam.idSecond.value);
-                if (lineParam.idFirst.value == 9 && lineParam.idSecond.value == 10){
-                    int i = 0;
-                }
-                map.addCommunication(new IdCommunication(lineParam.idFirst.value,lineParam.idSecond.value),
-                        new Communication(StationOne, StationTwo, lineParam.time.value, lineParam.bendPointX.value,
-                                lineParam.bendPointY.value));
+                IdCommunication idCommunication = new IdCommunication(lineParam.idFirst.value,lineParam.idSecond.value);
+                log.info(idCommunication.toString());
+                Communication communication = new Communication(StationOne, StationTwo, lineParam.time.value,
+                        lineParam.bendPointX.value,lineParam.bendPointY.value);
+
+                map.addCommunication(idCommunication, communication);
                 log.fine("Связи станций успешно инициализированны");
             }
         } catch (Exception e) {
             log.severe("Произошла ошибка при попытке инициализации связей станции: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public List<Integer> listActive;
+    public void selectStation(Station station){
+        if (selectStationTwo == null && selectStationOne != null){
+            selectStationTwo = station;
+            selectStationTwo.select();
+        } else {
+            selectStationOne = station;
+            selectStationOne.select();
+        }
+        if (selectStationOne != null && selectStationTwo != null){
+            if (listActive != null){
+                for (int i = 0; i < listActive.size(); i++){
+                    if (i+1 < listActive.size()) {
+                        IdCommunication idCommunication = new IdCommunication(listActive.get(i), listActive.get(i + 1));
+                        map.getCommunication(idCommunication).deselect();
+                    }
+                    map.getStation(listActive.get(i)).deselect();
+                }
+            }
+
+            listActive = graph.calculate(selectStationOne.getId(),selectStationTwo.getId());
+
+            for (int i = 0; i < listActive.size(); i++){
+                if (i+1 < listActive.size()) {
+                    IdCommunication idCommunication = new IdCommunication(listActive.get(i), listActive.get(i + 1));
+                    map.getCommunication(idCommunication).select();
+                }
+                map.getStation(listActive.get(i)).select();
+            }
+
+        }
+        update();
+
     }
 
     public void update(){

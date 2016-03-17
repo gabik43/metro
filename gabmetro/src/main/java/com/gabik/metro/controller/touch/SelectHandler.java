@@ -8,22 +8,18 @@ import java.util.List;
  */
 public class SelectHandler {
 
-    private Selectable oldSelectElement;
+
     public SelectHandler(){
     }
 
-    public void selectElement(List<Selectable> baseElementList, Point point){
+    public Selectable getSelectElement(List<Selectable> baseElementList, Point point){
         for (Selectable baseElement : baseElementList){
             SelectedRectangle selectedRectangle = baseElement.getSelectedRectangle();
             if (isPointInRectangle(selectedRectangle, point)){
-                if (oldSelectElement != null){
-                    oldSelectElement.deselect();
-                }
-                baseElement.select();
-                oldSelectElement = baseElement;
-                return;
+                return baseElement;
             }
         }
+        return null;
     }
 
     private boolean isPointInRectangle(SelectedRectangle selectedRectangle, Point point){

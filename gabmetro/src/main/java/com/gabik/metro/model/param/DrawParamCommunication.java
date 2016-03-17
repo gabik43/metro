@@ -15,6 +15,7 @@ public class DrawParamCommunication implements Drawable {
     public Point pointOne;
     public Point pointTwo;
     public int color;
+    public int size = 10;
 
     public DrawParamCommunication(Point pointOne, Point pointTwo, int color) {
         this.pointOne = pointOne;

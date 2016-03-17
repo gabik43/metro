@@ -1,6 +1,7 @@
 package com.gabik.metro.model;
 
 import com.gabik.metro.controller.touch.Selectable;
+import com.gabik.metro.grahp.TimeBetweenTwoElements;
 import com.gabik.metro.model.elements.Communication;
 import com.gabik.metro.model.elements.Branch;
 import com.gabik.metro.model.elements.NameStation;
@@ -19,7 +20,27 @@ public class Map {
     private HashMap<Integer, Station> mapStation;
     private HashMap<Integer, Branch> mapLines;
     private HashMap<String, NameStation> mapNames;
+
     private HashMap<IdCommunication, Communication> mapCommunication;
+
+    public Communication getCommunication(IdCommunication idCommunication){
+        return mapCommunication.get(idCommunication);
+    }
+
+    public List<TimeBetweenTwoElements> getDistance() {
+        List<TimeBetweenTwoElements> listTime = new ArrayList<TimeBetweenTwoElements>();
+        for (IdCommunication comItem : mapCommunication.keySet()){
+            int time = mapCommunication.get(comItem).getTime();
+            TimeBetweenTwoElements timeBetweenTwoElements = new TimeBetweenTwoElements(comItem.idOne,comItem.idTwo,
+                    time);
+            listTime.add(timeBetweenTwoElements);
+        }
+        return listTime;
+    }
+
+    public int getCountStations(){
+        return mapStation.size();
+    }
 
     private List<Selectable> selectableList;
     public List<Selectable> getSelectableList() {
@@ -81,8 +102,7 @@ public class Map {
     }
 
     public void addCommunication(IdCommunication idCommunication, Communication communication){
-        if (mapCommunication.containsKey(idCommunication)) throw new IllegalArgumentException("Связь с id: " + idCommunication + " уже " +
-                "была добавлена");
+        if (mapCommunication.containsKey(idCommunication)) return;
         mapCommunication.put(idCommunication, communication);
         drawCommunication.add(communication);
     }

@@ -13,7 +13,10 @@ public class IdCommunication {
     public int idOne;
     public int idTwo;
 
-
+    @Override
+    public String toString() {
+        return "ID первой станции: " + idOne + ". ID второй станции: " + idTwo;
+    }
 
     @Override
     public boolean equals(Object o) {

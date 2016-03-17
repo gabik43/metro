@@ -21,12 +21,14 @@ public class DrawCommunication extends DrawHandler {
     }
 
     public void drawLine(DrawParamCommunication drawParamCommunication){
+        paint.setStrokeWidth(drawParamCommunication.size);
         paint.setColor(drawParamCommunication.color);
         canvas.drawLine(drawParamCommunication.pointOne.x, drawParamCommunication.pointOne.y,
                 drawParamCommunication.pointTwo.x, drawParamCommunication.pointTwo.y, paint);
     }
 
     public void drawArc(DrawParamRingCommunication drawParamCommunication){
+        paint.setStrokeWidth(drawParamCommunication.size);
         paint.setColor(drawParamCommunication.color);
         canvas.drawArc(drawParamCommunication.rectangleCircle,
                 drawParamCommunication.startAngel,
@@ -34,6 +36,7 @@ public class DrawCommunication extends DrawHandler {
     }
 
     public void drawLineBend(DrawParamBendCommunication drawParamBendCommunication) {
+        paint.setStrokeWidth(drawParamBendCommunication.size);
         paint.setColor(drawParamBendCommunication.color);
         Path path = new Path();
         path.moveTo(drawParamBendCommunication.pointOne.x, drawParamBendCommunication.pointOne.y);

@@ -6,6 +6,7 @@ import android.view.View;
 import com.gabik.metro.controller.touch.*;
 import com.gabik.metro.controller.touch.Point;
 import com.gabik.metro.model.Model;
+import com.gabik.metro.model.elements.Station;
 import com.gabik.metro.view.MySurfaceView;
 
 import java.util.List;
@@ -62,12 +63,15 @@ public class Controller implements Observer, View.OnTouchListener {
         switch (typeTouch){
             case touch:
                 translateHandler.setStartPoint(event.getX(), event.getY());
+                //model.update();
                 break;
             case select:
                 List<Selectable> baseElementList = model.getSelectableList();
                 Point pointTouch = view.getConvertPoint(event.getX(), event.getY());
-                selectHandler.selectElement(baseElementList, pointTouch);
-                model.update();
+                Selectable selectElement = selectHandler.getSelectElement(baseElementList, pointTouch);
+                if (selectElement != null) {
+                    model.selectStation((Station) selectElement);
+                }
                 break;
             case move:
                 Point point = translateHandler.getTranslate(event.getX(), event.getY());
@@ -78,11 +82,6 @@ public class Controller implements Observer, View.OnTouchListener {
                 break;
             default:
         }
-    //ParamScene paramScene = model.getParamScene();
-    //paramScene.setPositionX(event.getX());
-    //paramScene.setPositionY(event.getY());
-    //model.setParamScene(paramScene);
-        model.update();
         return true;
     }
 

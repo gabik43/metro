@@ -1,5 +1,8 @@
 package com.gabik.metro.model.elements;
 
+import android.graphics.Color;
+import com.gabik.metro.controller.touch.Selectable;
+import com.gabik.metro.controller.touch.SelectedRectangle;
 import com.gabik.metro.model.param.DrawParamBendCommunication;
 import com.gabik.metro.model.param.DrawParamCommunication;
 import com.gabik.metro.model.param.DrawParamRingCommunication;
@@ -9,11 +12,15 @@ import com.gabik.metro.view.drawElements.Drawable;
 /**
  * Created by GaBiK on 24.02.2016.
  */
-public class Communication implements ParamsDerivable {
+public class Communication implements ParamsDerivable, Selectable {
 
     private Branch branch;
     private DrawParamCommunication drawParamCommunication;
+
     public int time;
+    public int getTime() {
+        return time;
+    }
 
     public Communication(Station stationOne, Station stationTwo, int time, String bendPointX, String bendPointY) {
         if (stationOne == null && stationTwo == null) throw new IllegalArgumentException("Один из входных параметров " +
@@ -65,6 +72,22 @@ public class Communication implements ParamsDerivable {
     public Drawable getParam() {
         return drawParamCommunication;
     }
+
+    @Override
+    public SelectedRectangle getSelectedRectangle() {
+        return null;
+    }
+
+    @Override
+    public void select() {
+        drawParamCommunication.size = 15;
+    }
+
+    @Override
+    public void deselect() {
+        drawParamCommunication.size = 10;
+    }
+
     private enum TypeCommunication {
         LINE,
         RING,

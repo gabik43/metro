@@ -12,6 +12,11 @@ import com.gabik.metro.view.drawElements.Drawable;
  */
 public class Station implements Selectable, ParamsDerivable {
 
+    public int getId() {
+        return id;
+    }
+
+    private int id;
     private NameStation nameStation;
     private DrawParamStation drawParamStation;
 
@@ -25,8 +30,9 @@ public class Station implements Selectable, ParamsDerivable {
 
     private Branch branchStation;
 
-    public Station(Branch branch, NameStation nameStation, int x, int y) {
+    public Station(int id, Branch branch, NameStation nameStation, int x, int y) {
         if (branch == null) throw new IllegalArgumentException("У элемента с именем: " + nameStation + "branch = null");
+        this.id = id;
         this.branchStation = branch;
         this.nameStation = nameStation;
         drawParamStation = new DrawParamStation(new Point(x,y), branch.getColor(), nameStation.getSelectedRectangle());
