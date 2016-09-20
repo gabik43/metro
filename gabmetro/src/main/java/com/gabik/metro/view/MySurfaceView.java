@@ -18,14 +18,15 @@ import java.util.logging.Logger;
 /**
  * Created by GaBiK on 28.10.2015.
  */
-public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback, Observer{
+public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private static final Logger log = Logger.getLogger(MySurfaceView.class.getName());
 
     private DrawThread drawThread;
     private Model model;
     public void setModel(Model model){
-        this.model = model;
-    }
+        this.model = model
+;    }
+
     public DrawThread getDrawThread() {
         return drawThread;
     }
@@ -83,8 +84,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-    @Override
-    public void update(Observable observable, Object data) {
+    public void redraw() {
         drawThread.redraw();
     }
 }

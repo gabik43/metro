@@ -14,6 +14,7 @@ import com.gabik.metro.model.elements.NameStation;
 import com.gabik.metro.model.elements.Station;
 import com.gabik.metro.model.param.ParamsDerivable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Logger;
@@ -28,6 +29,37 @@ public class Model extends Observable {
     private Graph graph;
     private Context context;
     private DataBaseHelper dataBaseHelper;
+    private List<StationSelectable> stationSelectables = new ArrayList<StationSelectable>();
+    private List<PathSelectable> pathSelectableList = new ArrayList<PathSelectable>();
+
+    private Station activeStation;
+
+    public void addStationSelectableListener(StationSelectable stationSelectable){
+        stationSelectables.add(stationSelectable);
+    }
+
+    public void addPathSelectableListener(PathSelectable pathSelectable){
+        pathSelectableList.add(pathSelectable);
+    }
+
+    private void onSelectStation(TypeSelectStation typeSelectStation, Station station){
+        if (stationSelectables == null) return;
+        for (StationSelectable stationSelectable : stationSelectables){
+            stationSelectable.onSelectStation(typeSelectStation, station);
+        }
+    }
+
+    private void onPathSelect(int time){
+        if (pathSelectableList == null) return;
+        for (PathSelectable pathSelectable : pathSelectableList){
+            pathSelectable.onSelectPath(time);
+        }
+    }
+
+    private CurrentActiveElements currentActiveElements;
+    public CurrentActiveElements getCurrentActiveElements() {
+        return currentActiveElements;
+    }
 
     private Station selectStationOne, selectStationTwo;
 
@@ -118,14 +150,17 @@ public class Model extends Observable {
     }
 
     public List<Integer> listActive;
-    public void selectStation(Station station){
-        if (selectStationTwo == null && selectStationOne != null){
-            selectStationTwo = station;
-            selectStationTwo.select();
-        } else {
-            selectStationOne = station;
-            selectStationOne.select();
-        }
+
+    public void activeStation(Station station){
+        activeStation = station;
+    }
+
+    public void update(){
+        setChanged();
+        notifyObservers();
+    }
+
+    private void selectPath(){
         if (selectStationOne != null && selectStationTwo != null){
             if (listActive != null){
                 for (int i = 0; i < listActive.size(); i++){
@@ -138,7 +173,7 @@ public class Model extends Observable {
             }
 
             listActive = graph.calculate(selectStationOne.getId(),selectStationTwo.getId());
-
+            onPathSelect(graph.getDistance());
             for (int i = 0; i < listActive.size(); i++){
                 if (i+1 < listActive.size()) {
                     IdCommunication idCommunication = new IdCommunication(listActive.get(i), listActive.get(i + 1));
@@ -148,12 +183,22 @@ public class Model extends Observable {
             }
 
         }
+    }
+
+
+    public void activeStation(TypeSelectStation typeSelectStation){
+        if (typeSelectStation == TypeSelectStation.START){
+            selectStationTwo = activeStation;
+        } else {
+            selectStationOne = activeStation;
+        }
+
+        activeStation.select();
+        onSelectStation(typeSelectStation, activeStation);
+
+        selectPath();
         update();
-
     }
 
-    public void update(){
-        setChanged();
-        notifyObservers();
-    }
 }
+

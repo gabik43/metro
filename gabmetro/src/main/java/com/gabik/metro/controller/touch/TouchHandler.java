@@ -10,29 +10,47 @@ import java.util.Date;
 public class TouchHandler {
 
 
-    private final int DELAY_TOUCH = 200;
-
+    private final int DELAY_SELECT = 250;
 
     private long touchDownTime;
-    private boolean isDownTouch;
+    private boolean startMove;
+    private boolean startScale;
+
+
+
     public TypeTouch getTypeTouch(MotionEvent event){
         switch (event.getAction()){
 
             case MotionEvent.ACTION_DOWN:
-                downTouch();
-                return TypeTouch.touch;
+                startMove = true;
+                startScale = true;
+                saveTimeTouch();
+                return TypeTouch.none;
 
             case MotionEvent.ACTION_UP:
-                if (isSelect())
+                if (isTimeTouchMoreDelay()) {
+                    startMove = false;
+                    startScale = false;
                     return TypeTouch.select;
+                }
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 int pointerCount = event.getPointerCount();
                 if (pointerCount == 2) {
+                    if (startScale) {
+                        startMove = true;
+                        startScale = false;
+                        return TypeTouch.start_scale;
+                    }
                     return TypeTouch.scale;
                 }
                 if (pointerCount == 1) {
+                    if (startMove){
+                        startMove = false;
+                        startScale = true;
+                        return TypeTouch.start_move;
+                    }
                     return TypeTouch.move;
                 }
                 break;
@@ -40,15 +58,12 @@ public class TouchHandler {
         return TypeTouch.none;
     }
 
-    private void downTouch(){
-        isDownTouch = true;
-        Date date = new Date();
-        touchDownTime = date.getTime();
+    private void saveTimeTouch(){
+        touchDownTime = new Date().getTime();
     }
 
-    private boolean isSelect(){
-        Date date = new Date();
-        if (Math.abs(date.getTime() - touchDownTime) < DELAY_TOUCH){
+    private boolean isTimeTouchMoreDelay(){
+        if (Math.abs(new Date().getTime() - touchDownTime) < DELAY_SELECT){
             return true;
         }
         return false;

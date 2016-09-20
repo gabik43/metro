@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_metro" default="compile.module.metro">
+  <dirname property="module.metro.basedir" file="${ant.file.module_metro}"/>
+  
+  <property name="module.jdk.home.metro" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.metro" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.metro" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.metro" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="metro.output.dir" value="${module.metro.basedir}/build/classes/production/metro"/>
+  <property name="metro.testoutput.dir" value="${module.metro.basedir}/build/classes/test/metro"/>
+  
+  <path id="metro.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="metro.module.production.classpath">
+    <path refid="${module.jdk.classpath.metro}"/>
+  </path>
+  
+  <path id="metro.runtime.production.module.classpath">
+    <pathelement location="${metro.output.dir}"/>
+  </path>
+  
+  <path id="metro.module.classpath">
+    <path refid="${module.jdk.classpath.metro}"/>
+    <pathelement location="${metro.output.dir}"/>
+  </path>
+  
+  <path id="metro.runtime.module.classpath">
+    <pathelement location="${metro.testoutput.dir}"/>
+    <pathelement location="${metro.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.metro">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.metro">
+    <patternset refid="excluded.from.module.metro"/>
+  </patternset>
+  
+  
+  <target name="compile.module.metro" depends="compile.module.metro.production,compile.module.metro.tests" description="Compile module metro"/>
+  
+  <target name="compile.module.metro.production" depends="register.custom.compilers" description="Compile module metro; production classes"/>
+  
+  <target name="compile.module.metro.tests" depends="register.custom.compilers,compile.module.metro.production" description="compile module metro; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.metro" description="cleanup module">
+    <delete dir="${metro.output.dir}"/>
+    <delete dir="${metro.testoutput.dir}"/>
+  </target>
+</project>

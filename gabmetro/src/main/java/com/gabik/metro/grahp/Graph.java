@@ -18,15 +18,15 @@ public class Graph {
     }
     private boolean isSetMatrix;
     // Матрица смежности
-    private float[][] matrixTimeBetweenNodeBegEndStations;
+    private int[][] matrixTimeBetweenNodeBegEndStations;
 
-    private float minDistance = 0;
+    private int minDistance = 0;
 
 
     private List<Integer> stationsIndexPath = new ArrayList<Integer>();
 
     public void initMatrix(List<TimeBetweenTwoElements> timeBetweenTwoElementsesList)  {
-        matrixTimeBetweenNodeBegEndStations = new float[countStations][countStations];
+        matrixTimeBetweenNodeBegEndStations = new int[countStations][countStations];
         for (TimeBetweenTwoElements timeBetweenTwoElement : timeBetweenTwoElementsesList){
             int indexOne = timeBetweenTwoElement.getIndexStationOne();
             int indexTwo = timeBetweenTwoElement.getIndexStationTwo();
@@ -43,7 +43,7 @@ public class Graph {
             int startNode = indexBeginStation;
             int finishNode = indexEndStation;
 
-            float distance[] = new float[countStations];
+            int distance[] = new int[countStations];
             int path[] = new int[countStations];
             int count, index = 0, i, u, m = startNode + 1;
 
@@ -87,7 +87,7 @@ public class Graph {
     }
 
     /*Получение дистанции текущего маршрута*/
-    public float getDistance() {
+    public int getDistance() {
         return minDistance;
     }
 

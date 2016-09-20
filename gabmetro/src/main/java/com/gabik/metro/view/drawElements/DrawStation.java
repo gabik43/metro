@@ -3,6 +3,7 @@ package com.gabik.metro.view.drawElements;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.View;
 import com.gabik.metro.model.param.DrawParamStation;
 
 /**
@@ -14,10 +15,10 @@ public class DrawStation extends DrawHandler {
     private static Paint interiorOval = new Paint();
     private static Paint whiteOval = new Paint();
     static {
-        paintBorder = new Paint();
         paintBorder.setStyle(Paint.Style.STROKE);
         paintBorder.setStrokeWidth(2);
         paintBorder.setColor(Color.GRAY);
+        paintBorder.setShadowLayer(2, 2, 2, Color.GRAY);
 
         interiorOval = new Paint();
         interiorOval.setStyle(Paint.Style.FILL);

@@ -54,6 +54,8 @@ public class DrawThread extends Thread {
         Canvas canvas;
         while (isRun) {
             if (isRedraw) {
+                if (!surfaceHolder.getSurface().isValid())
+                    continue;
                 isRedraw = false;
                 canvas = null;
                 try {

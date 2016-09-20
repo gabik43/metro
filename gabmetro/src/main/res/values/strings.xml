@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">metro</string>
+    <string name="drawer_open">Открыть</string>
+    <string name="drawer_close">Закрыть</string>
+    <string name="default_name_station">Название...</string>
 </resources>

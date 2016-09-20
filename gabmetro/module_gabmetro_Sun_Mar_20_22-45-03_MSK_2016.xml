@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_gabmetro" default="compile.module.gabmetro">
+  <dirname property="module.gabmetro.basedir" file="${ant.file.module_gabmetro}"/>
+  
+  <property name="module.jdk.home.gabmetro" value="${jdk.home.android_api_21_platform}"/>
+  <property name="module.jdk.bin.gabmetro" value="${jdk.bin.android_api_21_platform}"/>
+  <property name="module.jdk.classpath.gabmetro" value="jdk.classpath.android_api_21_platform"/>
+  
+  <property name="compiler.args.gabmetro" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="gabmetro.output.dir" value="${module.gabmetro.basedir}/build/intermediates/classes/debug"/>
+  <property name="gabmetro.testoutput.dir" value="${module.gabmetro.basedir}/build/intermediates/classes/test/debug"/>
+  
+  <path id="gabmetro.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="gabmetro.module.production.classpath">
+    <path refid="${module.jdk.classpath.gabmetro}"/>
+    <path refid="library.appcompat-v7-21.0.3.classpath"/>
+    <path refid="library.log4j-api-2.4.1.classpath"/>
+    <path refid="library.log4j-core-2.4.1.classpath"/>
+    <path refid="library.support-v4-21.0.3.classpath"/>
+    <path refid="library.support-annotations-21.0.3.classpath"/>
+  </path>
+  
+  <path id="gabmetro.runtime.production.module.classpath">
+    <pathelement location="${gabmetro.output.dir}"/>
+    <path refid="library.appcompat-v7-21.0.3.classpath"/>
+    <path refid="library.log4j-api-2.4.1.classpath"/>
+    <path refid="library.log4j-core-2.4.1.classpath"/>
+    <path refid="library.support-v4-21.0.3.classpath"/>
+    <path refid="library.support-annotations-21.0.3.classpath"/>
+  </path>
+  
+  <path id="gabmetro.module.classpath">
+    <path refid="${module.jdk.classpath.gabmetro}"/>
+    <pathelement location="${gabmetro.output.dir}"/>
+    <path refid="library.appcompat-v7-21.0.3.classpath"/>
+    <path refid="library.mockable-android-21.classpath"/>
+    <path refid="library.hamcrest-core-1.3.classpath"/>
+    <path refid="library.log4j-api-2.4.1.classpath"/>
+    <path refid="library.log4j-core-2.4.1.classpath"/>
+    <path refid="library.support-v4-21.0.3.classpath"/>
+    <path refid="library.support-annotations-21.0.3.classpath"/>
+    <path refid="library.junit-4.12.classpath"/>
+    <path refid="library.mockito-core-1.10.19.classpath"/>
+    <path refid="library.objenesis-2.1.classpath"/>
+  </path>
+  
+  <path id="gabmetro.runtime.module.classpath">
+    <pathelement location="${gabmetro.testoutput.dir}"/>
+    <pathelement location="${gabmetro.output.dir}"/>
+    <path refid="library.appcompat-v7-21.0.3.classpath"/>
+    <path refid="library.mockable-android-21.classpath"/>
+    <path refid="library.hamcrest-core-1.3.classpath"/>
+    <path refid="library.log4j-api-2.4.1.classpath"/>
+    <path refid="library.log4j-core-2.4.1.classpath"/>
+    <path refid="library.support-v4-21.0.3.classpath"/>
+    <path refid="library.support-annotations-21.0.3.classpath"/>
+    <path refid="library.junit-4.12.classpath"/>
+    <path refid="library.mockito-core-1.10.19.classpath"/>
+    <path refid="library.objenesis-2.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.gabmetro">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.gabmetro">
+    <patternset refid="excluded.from.module.gabmetro"/>
+  </patternset>
+  
+  <path id="gabmetro.module.sourcepath">
+    <dirset dir="${module.gabmetro.basedir}">
+      <include name="build/generated/source/r/debug"/>
+      <include name="build/generated/source/aidl/debug"/>
+      <include name="build/generated/source/buildConfig/debug"/>
+      <include name="build/generated/source/rs/debug"/>
+      <include name="build/generated/res/rs/debug"/>
+      <include name="src/main/res"/>
+      <include name="src/main/assets"/>
+      <include name="src/main/java"/>
+    </dirset>
+  </path>
+  
+  <path id="gabmetro.module.test.sourcepath">
+    <dirset dir="${module.gabmetro.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.gabmetro" depends="compile.module.gabmetro.production,compile.module.gabmetro.tests" description="Compile module gabmetro"/>
+  
+  <target name="compile.module.gabmetro.production" depends="register.custom.compilers" description="Compile module gabmetro; production classes">
+    <mkdir dir="${gabmetro.output.dir}"/>
+    <javac2 destdir="${gabmetro.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.gabmetro}/javac">
+      <compilerarg line="${compiler.args.gabmetro}"/>
+      <bootclasspath refid="gabmetro.module.bootclasspath"/>
+      <classpath refid="gabmetro.module.production.classpath"/>
+      <src refid="gabmetro.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.gabmetro"/>
+    </javac2>
+    
+    <copy todir="${gabmetro.output.dir}">
+      <fileset dir="${module.gabmetro.basedir}/build/generated/source/r/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gabmetro.basedir}/build/generated/source/aidl/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gabmetro.basedir}/build/generated/source/buildConfig/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gabmetro.basedir}/build/generated/source/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gabmetro.basedir}/build/generated/res/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gabmetro.basedir}/src/main/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gabmetro.basedir}/src/main/assets">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gabmetro.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.gabmetro.tests" depends="register.custom.compilers,compile.module.gabmetro.production" description="compile module gabmetro; test classes" unless="skip.tests">
+    <mkdir dir="${gabmetro.testoutput.dir}"/>
+    <javac2 destdir="${gabmetro.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.gabmetro}/javac">
+      <compilerarg line="${compiler.args.gabmetro}"/>
+      <bootclasspath refid="gabmetro.module.bootclasspath"/>
+      <classpath refid="gabmetro.module.classpath"/>
+      <src refid="gabmetro.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.gabmetro"/>
+    </javac2>
+    
+    <copy todir="${gabmetro.testoutput.dir}">
+      <fileset dir="${module.gabmetro.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.gabmetro" description="cleanup module">
+    <delete dir="${gabmetro.output.dir}"/>
+    <delete dir="${gabmetro.testoutput.dir}"/>
+  </target>
+</project>

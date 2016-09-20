@@ -15,8 +15,12 @@ import java.util.logging.Logger;
 public class NameStation implements ParamsDerivable, Selectable {
     private static final Logger log = Logger.getLogger(NameStation.class.getName());
     private DrawParamNameStation drawParamNameStation;
-    public String getName() {
+    public String getNameWithDelimiter() {
         return drawParamNameStation.getName();
+    }
+
+    public String getName(){
+        return drawParamNameStation.getName().replace(DELIMITER,"");
     }
 
     public NameStation(String name, int positionX, int positionY, int offsetX, int offsetY){
@@ -78,5 +82,12 @@ public class NameStation implements ParamsDerivable, Selectable {
     private enum PartName {
         FIRST_PART,
         SECOND_PART
+    }
+
+    @Override
+    public String toString() {
+        return "NameStation{" +
+                "drawParamNameStation=" + drawParamNameStation +
+                '}';
     }
 }

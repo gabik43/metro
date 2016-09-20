@@ -84,8 +84,8 @@ public class Map {
         drawStation.add(station);
     }
     public void addName(NameStation nameStation){
-        if (mapNames.containsKey(nameStation.getName())) return;
-        mapNames.put(nameStation.getName(), nameStation);
+        if (mapNames.containsKey(nameStation.getNameWithDelimiter())) return;
+        mapNames.put(nameStation.getNameWithDelimiter(), nameStation);
         drawNames.add(nameStation);
     }
     public NameStation getName(String nameStation){

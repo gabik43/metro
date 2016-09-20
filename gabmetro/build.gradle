@@ -42,7 +42,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            testCoverageEnabled true
+            testCoverageEnabled false
         }
     }
     testOptions {
@@ -57,4 +57,6 @@ dependencies {
     testCompile  'junit:junit:4.12'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.4.1'
     compile group:'org.apache.logging.log4j', name: 'log4j-core', version: '2.4.1'
+    compile "com.android.support:appcompat-v7:21.0.+"
+    compile 'org.lucasr.twowayview:twowayview:0.1.4'
 }

@@ -5,8 +5,9 @@ package com.gabik.metro.controller.touch;
  */
 public enum TypeTouch {
     select,
+    start_move,
     move,
+    start_scale,
     scale,
-    touch,
     none
 }

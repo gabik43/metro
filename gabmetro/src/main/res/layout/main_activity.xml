@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.DrawerLayout android:id ="@+id/drawerLayout" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent" tools:context=".com.gabik.metro.core.MainActivity">
-    <ListView android:id="@+id/left_drawer"
-              android:layout_width="240dp"
-              android:layout_height="match_parent"
-              android:layout_gravity="start"
-              android:choiceMode="singleChoice"
-              android:divider="@android:color/transparent"
-              android:dividerHeight="0dp"
-              android:background="#111"/>
-    <com.gabik.metro.view.MySurfaceView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/mySurfaceView"/>
-</LinearLayout>
+    <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:weightSum="100" android:id="@+id/scene">
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/frameLayout"
+                    android:background="@android:color/white" android:layout_weight="10">
+                <com.gabik.metro.view.Scene android:layout_gravity="top|left|center" android:layout_width="521dp" android:layout_height="625dp" android:id="@+id/mySurfaceView"
+                />
+            </FrameLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="left|bottom"
+                    android:id="@+id/linear_layout"
+                    android:baselineAligned="false" android:background="@android:color/white"
+                    android:layout_weight="90">
+                <com.gabik.metro.StationSelectButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="@string/default_name_station"
+                        android:id="@+id/stationSelectButtonFirst" android:layout_weight="50"/>
+                <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    <Button
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button" android:layout_weight="5" android:singleLine="true"
+                            android:text="-"/>
+                </FrameLayout>
+                <com.gabik.metro.StationSelectButton
+                    android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="@string/default_name_station"
+                        android:id="@+id/stationSelectButtonSecond" android:layout_weight="50"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+</android.support.v4.widget.DrawerLayout>

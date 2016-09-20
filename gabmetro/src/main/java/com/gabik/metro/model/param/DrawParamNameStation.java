@@ -13,6 +13,17 @@ public class DrawParamNameStation implements Drawable {
 
     private String name;
 
+    @Override
+    public String toString() {
+        return "DrawParamNameStation{" +
+                "name='" + name + '\'' +
+                ", color=" + color +
+                ", positionX=" + positionX +
+                ", positionY=" + positionY +
+                ", selectedRectangle=" + selectedRectangle +
+                '}';
+    }
+
     private int color;
     public int getColor() {
         return color;

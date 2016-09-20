@@ -18,6 +18,11 @@ public class Station implements Selectable, ParamsDerivable {
 
     private int id;
     private NameStation nameStation;
+
+    public NameStation getNameStation() {
+        return nameStation;
+    }
+
     private DrawParamStation drawParamStation;
 
     public Point getPoint(){
@@ -58,5 +63,15 @@ public class Station implements Selectable, ParamsDerivable {
     @Override
     public Drawable getParam() {
         return drawParamStation;
+    }
+
+    @Override
+    public String toString() {
+        return "Station{" +
+                "id=" + id +
+                ", nameStation=" + nameStation +
+                ", drawParamStation=" + drawParamStation +
+                ", branchStation=" + branchStation +
+                '}';
     }
 }
