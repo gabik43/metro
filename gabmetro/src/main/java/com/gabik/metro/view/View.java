@@ -18,7 +18,7 @@ import java.util.Observer;
  */
 public class View implements Observer {
     Scene scene;
-    LinearLayout screen;
+    //LinearLayout screen;
     SelectStationHandler selectStationHandler;
     PathInfoHandler pathInfoHandler;
 
@@ -58,7 +58,8 @@ public class View implements Observer {
     public View(Activity context){
 
         scene = (Scene)context.findViewById(R.id.mySurfaceView);
-        screen = (LinearLayout)context.findViewById(R.id.scene);
+        LinearLayout screen = (LinearLayout)context.findViewById(R.id.screen);
+        scene.setParent(screen);
 
 
         FrameLayout layoutMap = (FrameLayout)context.findViewById(R.id.frameLayout);

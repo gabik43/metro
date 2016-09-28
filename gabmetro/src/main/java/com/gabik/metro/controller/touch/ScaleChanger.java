@@ -6,7 +6,7 @@ import com.gabik.metro.controller.Placeable;
  * Created by GaBiK on 12.09.2016.
  */
 public class ScaleChanger extends ViewChanger {
-    private static final float SCALE_SPEED = 0.55f;
+/*    private static final float SCALE_SPEED = 0.55f;
     private static final float MAX_SCALE = 2.5f;
     private static final float MIN_SCALE = 0.8f;
     private Point pivotPoint;
@@ -56,7 +56,7 @@ public class ScaleChanger extends ViewChanger {
 
     private float calculateDistance(Point begin, Point end){
         return (float)Math.sqrt(Math.pow(end.x-begin.x,2) + Math.pow(end.y-begin.y,2));
-    }
+    }*/
 
 
 }

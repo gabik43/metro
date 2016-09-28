@@ -18,6 +18,7 @@ public interface Placeable {
 
     void updatePosition(Point newPosition);
     void updateScale(Point touchOne, Point touchTwo);
+    Point getRealPosition(Point position);
 
 
 }

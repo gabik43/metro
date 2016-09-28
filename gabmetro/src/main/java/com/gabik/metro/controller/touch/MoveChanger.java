@@ -6,7 +6,7 @@ import com.gabik.metro.controller.Placeable;
  * Created by GaBiK on 12.11.2015.
  */
 public class MoveChanger extends ViewChanger {
-    private final float SENSITIVITY = 7;
+    /*private final float SENSITIVITY = 7;
 
     private Point currentTouchPoint;
 
@@ -63,7 +63,7 @@ public class MoveChanger extends ViewChanger {
 
     public void setStartTouchPoint(float positionX, float positionY){
         currentTouchPoint = new Point(positionX, positionY);
-    }
+    }*/
 
 
 }

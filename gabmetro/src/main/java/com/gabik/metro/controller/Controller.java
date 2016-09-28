@@ -4,20 +4,16 @@ import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
-import android.widget.ScrollView;
 import com.gabik.metro.R;
 import com.gabik.metro.controller.touch.*;
 import com.gabik.metro.controller.touch.Point;
 import com.gabik.metro.model.Model;
 import com.gabik.metro.model.TypeSelectStation;
 import com.gabik.metro.model.elements.Station;
-import com.gabik.metro.view.MySurfaceView;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Logger;
 
 /**
  * Created by GaBiK on 04.11.2015.
@@ -90,6 +86,8 @@ public class Controller implements Observer, View.OnTouchListener {
     public void update(Observable observable, Object data) {
 
     }
+
+    Point previousTouchPosition;
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         TypeTouch typeTouch = touchHandler.getTypeTouch(event);
@@ -98,7 +96,7 @@ public class Controller implements Observer, View.OnTouchListener {
             case select:
                 List<Selectable> baseElementList = model.getSelectableList();
                 Point pointTouch = new Point(event.getX(), event.getY() );
-                Point pointWitchScale = moveChanger.getCorrectedPoint(pointTouch);
+                Point pointWitchScale = placeable.getRealPosition(pointTouch);
                 Selectable selectElement = selectHandler.getSelectElement(baseElementList, pointWitchScale);
                 if (selectElement != null) {
                     Station selectStation = (Station) selectElement;
@@ -107,18 +105,24 @@ public class Controller implements Observer, View.OnTouchListener {
                 }
                 break;
             case start_move:
-                moveChanger.setStartTouchPoint(event.getX(), event.getY());
+                previousTouchPosition = new Point(event.getX(), event.getY());
+                //startMovePoint = new Point(event.getX(), event.getY());
+                //moveChanger.setStartTouchPoint(event.getX(), event.getY());
                 break;
             case  move:
-                moveChanger.translate(event.getX(), event.getY());
+                Point dxPoint = new Point(event.getX() - previousTouchPosition.x,
+                         event.getY() - previousTouchPosition.y);
+                placeable.updatePosition(dxPoint);
+                previousTouchPosition = new Point(event.getX(), event.getY());
+                //moveChanger.translate(event.getX(), event.getY());
                 break;
             case start_scale:
-                scaleChanger.initScale(new Point(event.getX(0), event.getY(0)),
-                        new Point(event.getX(1), event.getY(1)));
+                //scaleChanger.initScale(new Point(event.getX(0), event.getY(0)),
+                 //       new Point(event.getX(1), event.getY(1)));
                 break;
             case scale:
-                scaleChanger.scale(new Point(event.getX(0), event.getY(0)),
-                        new Point(event.getX(1), event.getY(1)));
+                //scaleChanger.scale(new Point(event.getX(0), event.getY(0)),
+                //        new Point(event.getX(1), event.getY(1)));
                 break;
             default:
         }
